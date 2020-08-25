@@ -14,7 +14,6 @@ function axiosGet(form) {  //function傳入值不會再傳出，盡量是常數�
   if (form.full_time.checked) {
     var fullTime = "on"
   }
-  console.log(fullTime)
   axios.get('https://still-spire-37210.herokuapp.com/positions.json', {
     params: {
       description: desc,
@@ -24,26 +23,15 @@ function axiosGet(form) {  //function傳入值不會再傳出，盡量是常數�
     }
   })
     .then(function (response) {
-      console.log(response)
       page++;
+
       let data = response.data
-      console.log(data)
-      console.log(data.length)
+      // console.log(data.length)
+      render(data)
+      
       if (data.length === 50) {
         nextBtn.removeAttribute('disabled')
       }
-
-      data.forEach(obj => {
-        let link = data.url
-        temJob.setAttribute('href', `${link}`)
-        temJob.textContent = obj.title
-        temCompany.textContent = obj.company
-        temFullTime.textContent = obj.type
-        temLocation.textContent = obj.location
-        const clone = document.importNode(template.content, true);
-        jobPannel.append(clone)
-      })
-
     })
     .catch(function (error) {
       console.log(error);
@@ -51,6 +39,19 @@ function axiosGet(form) {  //function傳入值不會再傳出，盡量是常數�
     .then(function () {
       // always executed
     })
+}
+
+function render(data) {
+  data.forEach(obj => {
+    let link = data.url
+    temJob.setAttribute('href', `${link}`)
+    temJob.textContent = obj.title
+    temCompany.textContent = obj.company
+    temFullTime.textContent = obj.type
+    temLocation.textContent = obj.location
+    const clone = document.importNode(template.content, true);
+    jobPannel.append(clone)
+  })
 }
 
 form.addEventListener('submit', (e) => {
