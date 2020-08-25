@@ -2,7 +2,9 @@ const form = document.forms[0]
 form.addEventListener('submit', (e) => {
   let desc = form.description.value
   let location = form.location.value
-  let fullTime = form.full_time.value
+  if(form.full_time.checked){
+    var fullTime = "on"
+  }
   e.preventDefault()
   // fetch 寫法
   // fetch('https://still-spire-37210.herokuapp.com/positions.json')
@@ -19,7 +21,8 @@ form.addEventListener('submit', (e) => {
     }
   })
   .then(function (response) {
-    console.log(response);
+    let data = response.data
+    console.log(data)
   })
   .catch(function (error) {
     console.log(error);
